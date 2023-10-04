@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+      <style>
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="style.css">
+    <title>Mess Attendance</title>
+    <script>
+        window.onload = function () {
+            // Set the time limit (in 24-hour format)
+            var timeLimit = 23; // 23:00 
+
+            // Get the current time
+            var currentTime = new Date();
+            var currentHour = currentTime.getHours();
+
+            // Check if the current time is past the time limit
+            if (currentHour >= timeLimit) {
+                // Disable the form if it's past the time limit
+                var form = document.getElementById('google-sheet');
+                if (form) {
+                    form.style.display = 'none';
+                    alert('The form is no longer available after 23:00.');
+                }
+            }
+
+            // Get today's date in the format "YYYY-MM-DD"
+            const today = new Date().toISOString().split('T')[0];
+
+            // Set the minimum date for the input to today
+            document.getElementById('date').min = today;
+
+            // Add event listener for form submission
+            document.getElementById('dateForm').addEventListener('submit', function(event) {
+                const selectedDate = document.getElementById('date').value;
+
+                // Check if the selected date is in the future
+                if (selectedDate < today) {
+                    alert('Please select a date in the future.');
+                    event.preventDefault(); // Prevent form submission
+                }
+            });
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Mess Attendance</h1>
+    </header>
+
+    <div>
+        <form method="POST" name="google-sheet" id="google-sheet">
+            <label for="name"><b>Name</b></label>
+            <input type="text" id="fname" name="Name" placeholder="Your name..">
+
+            <div class="form-container">
+                <form id="dateForm">
+                    <div>
+                        <label for="date">Select a Date:</label>
+                        <input type="date" id="date" name="Date" min="" required>
+                    </div>
+                </form>
+            </div>
+
+            <p>
+                <label for="breakfast"><b>Breakfast</b></label>
+                <select id="breakfast" name="Breakfast">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+                <label for="No. Of Plates(Breakfast)"><b>No. Of Plates(Breakfast)</b></label>
+                <select id="PB" name="Plates(Breakfast)">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </p>
+                 <input type="submit" value="Submit" name="Submit">
+        </form>
+    </div>
+</body>
+</html>
